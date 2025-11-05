@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  proxmox-batch:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile
+    container_name: proxmox-batch-processor
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../backend:/app
+      - ../frontend:/app/frontend
+      - output-data:/app/output
+      - db-data:/app/data
+    env_file:
+      - ../.env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  output-data:
+  db-data:

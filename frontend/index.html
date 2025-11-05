@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proxmox Batch Processor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Proxmox Batch Processor</h1>
+            <p class="subtitle">AI-Powered Infrastructure Analysis & Documentation</p>
+        </header>
+
+        <div class="status-bar">
+            <div class="status-item">
+                <span class="label">Proxmox:</span>
+                <span id="proxmox-status" class="status-indicator">Checking...</span>
+            </div>
+            <div class="status-item">
+                <span class="label">Claude AI:</span>
+                <span id="claude-status" class="status-indicator">Checking...</span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- Cluster Overview Section -->
+            <section class="card">
+                <h2>Cluster Overview</h2>
+                <div id="cluster-info" class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Total VMs/LXCs</div>
+                        <div id="total-resources" class="info-value">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">QEMU VMs</div>
+                        <div id="total-vms" class="info-value">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">LXC Containers</div>
+                        <div id="total-lxcs" class="info-value">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Nodes</div>
+                        <div id="total-nodes" class="info-value">-</div>
+                    </div>
+                </div>
+                <button id="refresh-cluster-btn" class="btn btn-secondary">Refresh Cluster Info</button>
+            </section>
+
+            <!-- Start Analysis Section -->
+            <section class="card highlight">
+                <h2>Start New Analysis</h2>
+                <p>This will analyze all VMs and LXCs in your Proxmox cluster and generate:</p>
+                <ul>
+                    <li>Comprehensive documentation for each VM/LXC</li>
+                    <li>Security reviews and recommendations</li>
+                    <li>Performance optimization suggestions</li>
+                    <li>Terraform templates for Infrastructure as Code</li>
+                    <li>Ansible playbooks for automation</li>
+                    <li>Infrastructure summary report</li>
+                </ul>
+                <p class="warning">⚠️ Note: This operation uses Claude API and will incur costs based on the number of resources analyzed.</p>
+                <button id="start-analysis-btn" class="btn btn-primary">Start Batch Analysis</button>
+            </section>
+
+            <!-- Active Job Section -->
+            <section id="active-job-section" class="card" style="display: none;">
+                <h2>Analysis in Progress</h2>
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span>Job ID: <strong id="current-job-id">-</strong></span>
+                        <span><strong id="progress-text">0%</strong></span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                    <div class="progress-details">
+                        <span id="progress-details">Processed: 0 / 0</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Job History Section -->
+            <section class="card">
+                <h2>Job History</h2>
+                <button id="refresh-jobs-btn" class="btn btn-secondary">Refresh</button>
+                <div id="jobs-list" class="jobs-list">
+                    <p class="empty-state">No jobs yet. Start your first analysis!</p>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <p>Powered by Claude AI & Proxmox API</p>
+        </footer>
+    </div>
+
+    <!-- Modal for Job Details -->
+    <div id="job-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Job Details</h2>
+            <div id="job-details-content"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
