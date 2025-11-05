@@ -307,18 +307,10 @@ async def download_job_outputs(job_id: int):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# Mount frontend static files
-frontend_path = Path(__file__).parent.parent / "frontend"
+# Mount frontend static files at root
+frontend_path = Path(__file__).parent / "frontend"
 if frontend_path.exists():
-    app.mount("/app", StaticFiles(directory=str(frontend_path), html=True), name="frontend")
-
-    @app.get("/app")
-    async def serve_frontend():
-        """Serve the frontend application"""
-        index_path = frontend_path / "index.html"
-        if index_path.exists():
-            return FileResponse(index_path)
-        return {"message": "Frontend not found"}
+    app.mount("/", StaticFiles(directory=str(frontend_path), html=True), name="frontend")
 
 
 if __name__ == "__main__":
